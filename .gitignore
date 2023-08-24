@@ -1,0 +1,6 @@
+.infracost*
+.terraform*
+.terraform.lock.hcl
+terraform.tfstate*
+terraform.tfvars*
+nuke-config.yml
