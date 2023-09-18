@@ -1,0 +1,15 @@
+#cloud-config
+# logs: /var/log/cloud-init-output.log
+
+users:
+    - name: kube
+      ssh_authorized_keys:
+          - ${ssh_authorized_keys}
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      lock_passwd: true
+      groups: sudo
+      shell: /bin/bash
+
+ssh_pwauth: false
+package_update: false
+package_upgrade: false

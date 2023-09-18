@@ -14,5 +14,9 @@ List of useful tools and configs for cloud native projects.
 ### Useful commands
 
 ```sh
-aws-nuke -c ./config/nuke-config.yml
+aws-nuke -c ./nuke-config.yml
+```
+
+```sh
+aws ec2 create-default-vpc
 ```

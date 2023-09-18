@@ -1,0 +1,47 @@
+---
+- name: Remove oracle cloud rule breaking kubectl
+  ansible.builtin.iptables:
+      chain: INPUT
+      reject_with: icmp-host-prohibited
+      jump: REJECT
+      state: absent
+  become: true
+
+- name: Remove oracle cloud rule breaking kubectl
+  ansible.builtin.iptables:
+      chain: FORWARD
+      reject_with: icmp-host-prohibited
+      jump: REJECT
+      state: absent
+  become: true
+
+- name: Enable udp ports for k3sup
+  ansible.builtin.iptables:
+      chain: INPUT
+      protocol: udp
+      destination_ports:
+          - '8472'
+          - '51820'
+          - '51821'
+          - '22'
+      jump: ACCEPT
+  become: true
+
+- name: Enable tcp ports for k3sup and http access
+  ansible.builtin.iptables:
+      chain: INPUT
+      protocol: tcp
+      destination_ports:
+          - '2379:2380'
+          - '6443'
+          - '8081:8083'
+          - '80'
+          - '443'
+          - '22'
+      jump: ACCEPT
+  become: true
+
+- name: Save current state of the firewall in system file
+  community.general.iptables_state:
+      state: saved
+      path: /etc/iptables/rules.v4

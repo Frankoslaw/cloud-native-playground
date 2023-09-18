@@ -1,0 +1,10 @@
+---
+- name: Play needed tasks in order
+  include_tasks: '{{ item }}'
+  loop:
+      - user.yml
+      - timezone.yml
+      - ssh.yml
+      - iptables.yml
+      - disable-agent.yml
+      - apt.yml

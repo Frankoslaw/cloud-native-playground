@@ -1,0 +1,20 @@
+---
+- name: Set authorized key for user kube
+  authorized_key:
+      user: kube
+      state: present
+      key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+- name: Disable root password login via SSH.
+  lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^#?PermitRootLogin'
+      line: 'PermitRootLogin prohibit-password'
+  notify:
+      - restart sshd
+- name: Disable tunneled clear-text passwords.
+  lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: '^#?PasswordAuthentication'
+      line: 'PasswordAuthentication no'
+  notify:
+      - restart sshd

@@ -1,0 +1,28 @@
+---
+- hosts: k3s
+  gather_facts: true
+  become: true
+  roles:
+      - { role: ubuntu, tags: pre-install }
+
+- hosts: master
+  gather_facts: true
+  become: true
+  vars:
+      swap_file_size_mb: '6144'
+      swap_swappiness: '60'
+      swap_file_state: present
+      swap_file_path: /swapfile
+  roles:
+      - { role: geerlingguy.swap }
+
+- hosts: node
+  gather_facts: true
+  become: true
+  vars:
+      swap_file_size_mb: '2048'
+      swap_swappiness: '60'
+      swap_file_state: present
+      swap_file_path: /swapfile
+  roles:
+      - { role: geerlingguy.swap }

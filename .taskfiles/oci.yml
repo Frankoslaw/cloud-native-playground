@@ -1,0 +1,11 @@
+---
+version: '3'
+
+vars:
+    OCI_REGION: 'eu-frankfurt-1'
+
+tasks:
+    auth:
+        desc: Authorize OCI privider for terraform
+        cmds:
+            - 'oci session authenticate --config-file ~/.oci/config --profile-name DEFAULT --auth security_token --region {{.OCI_REGION}}'

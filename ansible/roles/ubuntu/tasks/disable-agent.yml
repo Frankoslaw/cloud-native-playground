@@ -1,0 +1,14 @@
+---
+- shell: 'pkill {{item}}'
+  become: true
+  loop:
+      - gomon
+      - agent
+  ignore_errors: true
+- community.general.snap:
+      name: oracle-cloud-agent
+      state: absent
+- service:
+      name: snapd
+      state: stopped
+      enabled: false

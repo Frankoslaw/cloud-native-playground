@@ -1,0 +1,26 @@
+---
+- hosts: "{{ groups['master'][0] }}"
+  gather_facts: true
+  tasks:
+      - shell: "{{ lookup('template', '../templates/master.sh.j2') }}"
+        delegate_to: localhost
+
+- hosts: "{{ groups['master'][1:] }}"
+  gather_facts: true
+  tasks:
+      - shell: "{{ lookup('template', '../templates/master_n.sh.j2') }}"
+        delegate_to: localhost
+
+- hosts: node
+  gather_facts: true
+  tasks:
+      - shell: "{{ lookup('template', '../templates/worker.sh.j2') }}"
+        delegate_to: localhost
+
+- hosts: k3s
+  gather_facts: true
+  tasks:
+      - shell:
+            cmd: 'k3sup ready --context {{cluster_name}}'
+        run_once: true
+        delegate_to: localhost

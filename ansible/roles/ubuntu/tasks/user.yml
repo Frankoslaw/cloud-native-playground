@@ -1,0 +1,6 @@
+---
+- name: Add user kube for k3s installation
+  user:
+      name: kube
+      group: sudo
+      createhome: yes

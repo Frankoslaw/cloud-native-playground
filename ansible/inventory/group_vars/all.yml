@@ -1,0 +1,4 @@
+ansible_user: kube
+timezone: Europe/Warsaw
+cluster_name: homelab
+master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] }}"

@@ -1,0 +1,12 @@
+---
+version: '3'
+
+vars:
+    PROJECT_DIR:
+        sh: 'git rev-parse --show-toplevel'
+    ANSIBLE_DIR: '{{.PROJECT_DIR}}/ansible'
+    TERRAFORM_DIR: '{{.PROJECT_DIR}}/terraform'
+
+includes:
+    oci: .taskfiles/oci.yml
+    ansible: .taskfiles/ansible.yml

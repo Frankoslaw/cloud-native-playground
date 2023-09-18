@@ -4,3 +4,5 @@
 terraform.tfstate*
 terraform.tfvars*
 nuke-config.yml
+k3sup
+kubectl
