@@ -24,3 +24,4 @@ aws ec2 create-default-vpc
 # TODO:
 
 -   add ArgoCD pass using sops
+-   add discord webhook using sops

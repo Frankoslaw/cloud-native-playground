@@ -1,0 +1,34 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: nginx.test.frankoslaw.top
+    namespace: default
+spec:
+    commonName: nginx.test.frankoslaw.top
+    secretName: nginx.test.frankoslaw.top
+    issuerRef:
+        name: letsencrypt-staging
+        kind: ClusterIssuer
+    dnsNames:
+        - nginx.test.frankoslaw.top
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: nginx-test
+    namespace: default
+spec:
+    entryPoints:
+        - websecure
+    routes:
+        - match: Host(`nginx.test.frankoslaw.top`)
+          kind: Rule
+          services:
+              - name: nginx-service
+                port: http
+    tls:
+        certResolver: letsencrypt-staging
+        domains:
+            - main: nginx.test.frankoslaw.top
+        secretName: nginx.test.frankoslaw.top
