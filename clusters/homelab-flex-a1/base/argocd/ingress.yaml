@@ -28,7 +28,7 @@ spec:
           services:
               - name: argocd-server
                 port: http
-        - match: Host(`argocd.frankoslaw.top`) && Header(`Content-Type`, `application/grpc`)
+        - match: Host(`argocd.frankoslaw.top`) && Headers(`Content-Type`, `application/grpc`)
           priority: 11
           kind: Rule
           services:
