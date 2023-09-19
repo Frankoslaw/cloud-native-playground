@@ -1,0 +1,34 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: traefik.frankoslaw.top
+    namespace: default
+spec:
+    commonName: traefik.frankoslaw.top
+    secretName: traefik.frankoslaw.top
+    issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+    dnsNames:
+        - traefik.frankoslaw.top
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: traefik-dashboard
+    namespace: default
+spec:
+    entryPoints:
+        - websecure
+    routes:
+        - match: Host(`traefik.frankoslaw.top`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+          kind: Rule
+          services:
+              - name: api@internal
+                kind: TraefikService
+    tls:
+        certResolver: letsencrypt-prod
+        domains:
+            - main: traefik.frankoslaw.top
+        secretName: traefik.frankoslaw.top

@@ -1,0 +1,42 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: argocd.frankoslaw.top
+    namespace: default
+spec:
+    commonName: argocd.frankoslaw.top
+    secretName: argocd.frankoslaw.top
+    issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+    dnsNames:
+        - argocd.frankoslaw.top
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+    name: argocd-server
+    namespace: argocd
+spec:
+    entryPoints:
+        - websecure
+    routes:
+        - match: Host(`argocd.frankoslaw.top`)
+          priority: 10
+          kind: Rule
+          services:
+              - name: argocd-server
+                port: http
+        - match: Host(`argocd.frankoslaw.top`) && Header(`Content-Type`, `application/grpc`)
+          priority: 11
+          kind: Rule
+          services:
+              - name: argocd-server
+                port: http
+                scheme: h2c
+    tls:
+        certResolver: letsencrypt-prod
+        domains:
+            - main: argocd.frankoslaw.top
+        secretName: argocd.frankoslaw.top

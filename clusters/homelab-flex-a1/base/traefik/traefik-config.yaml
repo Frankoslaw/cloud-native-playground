@@ -1,0 +1,36 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+    name: traefik
+    namespace: kube-system
+spec:
+    valuesContent: |-
+        image:
+            name: traefik
+            tag: v3.0
+        ports:
+            web:
+                port: 80
+                expose: true
+                exposePort: 80
+                protocol: TCP
+            websecure:
+                port: 443
+                expose: true
+                exposePort: 443
+                protocol: TCP
+        ingressRoute:
+            dashboard:
+                enabled: false
+        persistence:
+            enabled: true
+            path: /certs
+            size: 128Mi
+        securityContext:
+            capabilities:
+                drop: [ALL]
+                add: [NET_BIND_SERVICE]
+            readOnlyRootFilesystem: true
+            runAsGroup: 0
+            runAsNonRoot: false
+            runAsUser: 0
