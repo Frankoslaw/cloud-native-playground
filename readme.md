@@ -20,3 +20,7 @@ aws-nuke -c ./nuke-config.yml
 ```sh
 aws ec2 create-default-vpc
 ```
+
+# TODO:
+
+-   add ArgoCD pass using sops
