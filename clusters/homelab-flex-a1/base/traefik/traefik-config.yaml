@@ -7,9 +7,6 @@ spec:
     valuesContent: |-
         image:
             name: traefik
-            registry: docker.io
-            repository: traefik
-            tag: v3.0
         ports:
             web:
                 port: 80
