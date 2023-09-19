@@ -5,9 +5,8 @@ metadata:
     namespace: default
 spec:
     selector:
-        app: nginx-service
+        app: nginx
     ports:
         - protocol: TCP
           port: 80
           targetPort: 80
-    type: LoadBalancer
